@@ -33,3 +33,6 @@ The project uses Fast Api .
 <li> pip install -r requirements.txt: To install dependencies from requirements</li>
 <li> cd app && uvicorn main:app --reload: To run fast api</li>
 </ul>
+
+## <h1> Author </h1>
+Built by <b>Andrew Indeche</b>
