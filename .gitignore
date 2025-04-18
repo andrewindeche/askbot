@@ -44,4 +44,4 @@ frontend/next-env.d.ts
 backend/fastapienv/
 backend/venv/
 backend/*.egg-info/
-backend/__pycache__/
+backend/app/__pycache__/
