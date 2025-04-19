@@ -5,9 +5,14 @@ import Head from "next/head";
 import axios from "axios";
 import Image from "next/image";
 
+interface Recipe {
+  title: string;
+  recipe: string;
+  image_url?: string;
+}
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
 
