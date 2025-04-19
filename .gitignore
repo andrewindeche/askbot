@@ -43,6 +43,8 @@ frontend/next-env.d.ts
 
 backend/fastapienv/
 backend/venv/
+backend/.env*
+backend/.env
 backend/*.egg-info/
 backend/app/__pycache__/
 backend/app/gen-lang-client-0535661448-5093a16278b6.json
