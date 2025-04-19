@@ -18,38 +18,38 @@ class ChatGPTClient:
             openai.api_key = os.getenv("OPENAI_API_KEY")
             if not openai.api_key:
                 raise ValueError("OPENAI_API_KEY must be set in your environment.")
-            
             self.model_name = model_name
-            logger.info(f"Initialized ChatGPTClient with model: {model_name}")
+            logger.info("Initialized ChatGPTClient with model: %s", model_name)
         except Exception as e:
-            logger.error(f"Error initializing ChatGPT client: {e}")
+            logger.error("Error initializing ChatGPT client: %s", e)
             raise
+
 
     def query(self, prompt: str) -> str:
         """
         Queries the ChatGPT model using the provided prompt and handles errors.
         """
         try:
-            response = openai.completions.create(
+            gpt_response = openai.Completion.create(
                 model=self.model_name,
                 prompt=prompt,
                 max_tokens=150
             )
-            return response['choices'][0]['text'].strip()
+            return gpt_response['choices'][0]['text'].strip()
         except openai.AuthenticationError as e:
-            logger.error(f"Authentication Error: {e}")
+            logger.error("Authentication Error: %s", e)
             return "Authentication failed. Please check your API key."
         except openai.RateLimitError as e:
-            logger.error(f"Rate Limit Error: {e}")
+            logger.error("Rate Limit Error: %s", e)
             return "Rate limit exceeded. Please try again later."
         except openai.APIError as e:
-            logger.error(f"API Error: {e}")
+            logger.error("API Error: %s", e)
             return "API error occurred. Please try again later."
         except openai.OpenAIError as e:
-            logger.error(f"OpenAI Error: {e}")
+            logger.error("OpenAI Error: %s", e)
             return "An OpenAI error occurred. Please try again later."
         except Exception as e:
-            logger.error(f"Unexpected error during query: {e}")
+            logger.error("Unexpected error during query: %s", e)
             return "An unexpected error occurred during query execution."
 
 

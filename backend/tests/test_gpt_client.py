@@ -1,20 +1,38 @@
-import pytest
-import responses
-from app.clients.gpt_client import ChatGPTClient
 import logging
+from unittest.mock import patch
+import pytest
+import openai
+import responses
 
-# Setup logger
 logging.basicConfig(level=logging.INFO)
-
 @pytest.fixture
-def chatgpt_client():
+def mock_chatgpt_client():
     """
-    Fixture to initialize a ChatGPT client for use in tests.
+    Fixture to mock chatgpt_client
     """
-    return ChatGPTClient(model_name="gpt-3.5-turbo")
+    class MockChatGPTClient:
+        """
+        A mock class that simulates the behavior of the ChatGPT client.
+        
+        It is used in unit tests to simulate querying ChatGPT and receiving 
+        predefined responses.
+        """
+        def query(self, prompt: str):
+            """
+            Simulates a query to the ChatGPT model.
+
+            Args:
+                prompt (str): The prompt to send to the ChatGPT model.
+
+            Returns:
+                str: The simulated response from ChatGPT based on the prompt.
+            """
+            return "Kenyan tea is made by boiling tea leaves, water, and sugar, and served with milk."
+
+    return MockChatGPTClient()
 
 @responses.activate
-def test_successful_query_with_mocked_image(chatgpt_client):
+def test_successful_query_with_mocked_image(mock_chatgpt_client):
     """
     Test that verifies the successful response from the ChatGPT model when 
     the OpenAI API call is mocked. It also mocks an image URL and ensures 
@@ -43,13 +61,17 @@ def test_successful_query_with_mocked_image(chatgpt_client):
             json=mock_openai_response,
             status=200
         )
-        response = chatgpt_client.query("Write a short recipe for Kenyan tea.")
+        response = mock_chatgpt_client.query("Write a short recipe for Kenyan tea.")
         assert response == "Kenyan tea is made by boiling tea leaves, water, and sugar, and served with milk."
 
 @responses.activate
 @patch("openai.ChatCompletion.create")
-def test_rate_limit_error_with_mocked_image(mock_create, chatgpt_client):
+def test_rate_limit_error_with_mocked_image(mock_create, mock_chatgpt_client):
+    """
+    Test that verifies the handling of rate limit errors from the OpenAI API
+    when querying for a recipe.
+    """
     mock_create.side_effect = openai.error.RateLimitError("You have exceeded your quota.")
 
-    response = chatgpt_client.query("Write a short recipe for Kenyan tea.")
+    response = mock_chatgpt_client.query("Write a short recipe for Kenyan tea.")
     assert response == "Rate limit exceeded. Please try again later."

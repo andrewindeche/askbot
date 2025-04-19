@@ -1,7 +1,7 @@
+import re
 from fastapi import APIRouter, HTTPException
 from app.clients.gpt_client import ChatGPTClient 
 from app.schemas.recipe import RecipeRequest, RecipeResponse
-import re
 
 router = APIRouter()
 chatgpt = ChatGPTClient()
@@ -30,9 +30,8 @@ def generate_recipe(request: RecipeRequest):
 
     if not raw_response:
         raise HTTPException(status_code=500, detail="Failed to get a response from ChatGPT.")
-    
+
     try:
-        # Parse the response for title, ingredients, instructions, and image URL
         title_match = re.search(r"Title:\s*(.+)", raw_response)
         ingredients_match = re.findall(r"- (.+)", raw_response)
         instructions_match = re.findall(r"\d+\. (.+)", raw_response)
@@ -50,4 +49,4 @@ def generate_recipe(request: RecipeRequest):
             image_url=image_url
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error parsing recipe: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error parsing recipe: {str(e)}") from e
