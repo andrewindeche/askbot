@@ -1,8 +1,8 @@
-import redis
-from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
 import json
 from typing import List
+import redis
+from fastapi import FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
