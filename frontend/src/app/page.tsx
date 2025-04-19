@@ -3,11 +3,13 @@
 import { useState } from "react";
 import Head from "next/head";
 import axios from "axios";
+import Image from "next/image";
 
 export default function Home() {
   const [prompt, setPrompt] = useState("");
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(false);
+  const [history, setHistory] = useState<string[]>([]);
 
   const generateRecipe = async () => {
     setLoading(true);
@@ -15,7 +17,9 @@ export default function Home() {
       const res = await axios.post("http://localhost:8000/generate-recipe", {
         prompt,
       });
+      const newRecipe = res.data.title;
       setRecipe(res.data);
+      setHistory((prevHistory) => [newRecipe, ...prevHistory]);
     } catch (error) {
       console.error("Error generating recipe:", error);
       setRecipe(null);
@@ -63,14 +67,36 @@ export default function Home() {
               {recipe.recipe || "No recipe found."}
             </p>
             {recipe.image_url && (
-              <img
-                src={recipe.image_url}
-                alt="Recipe"
-                className="mt-4 rounded-xl shadow-md w-full"
-              />
+              <div className="mt-4 w-full">
+                <Image
+                  src={recipe.image_url}
+                  alt="Recipe"
+                  width={600}
+                  height={400}
+                  className="rounded-xl shadow-md"
+                />
+              </div>
             )}
           </div>
         )}
+
+        <div className="mt-10 w-full max-w-2xl">
+          <h2 className="text-xl font-bold text-amber-700 mb-4">Recipe History</h2>
+          <div className="space-y-4">
+            {history.length === 0 ? (
+              <p className="text-gray-600">No recipes generated yet.</p>
+            ) : (
+              history.map((item, index) => (
+                <div
+                  key={index}
+                  className="p-4 bg-gray-100 rounded-xl shadow-md border border-yellow-200"
+                >
+                  <p className="text-lg text-gray-700">{item}</p>
+                </div>
+              ))
+            )}
+          </div>
+        </div>
       </div>
     </>
   );
