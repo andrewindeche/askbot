@@ -4,9 +4,18 @@ load_dotenv()
 
 from fastapi import FastAPI
 from app.routes import recipe
+from fastapi.middleware.cors import CORSMiddleware
 
 # Initialize FastAPI app
 app = FastAPI()
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
 # Include the routes
 app.include_router(recipe.router)
