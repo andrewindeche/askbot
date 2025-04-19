@@ -1,17 +1,25 @@
-from fastapi import FastAPI
+"""
+import os dependency for env variables
+"""
+import os
+from dotenv import load_dotenv
 
-app = FastAPI()
+load_dotenv()
 
-@app.get("/")
-def read_root():
-    '''
-    Sample python function
-    '''
-    return {"message": "Hello, FastAPI!"}
+google_project = os.getenv("GOOGLE_CLOUD_PROJECT")
+google_region = os.getenv("GOOGLE_CLOUD_REGION")
+google_credentials_path = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    '''
-    Sample python function
-    '''
-    return {"item_id": item_id, "q": q}
+from vertexai.generative_models import GenerativeModel
+
+def get_gemini_model(model_name="gemini-pro"):
+    """
+    Retrieves a Gemini generative model.
+
+    Args:
+        model_name (str): The name of the Gemini model to retrieve. Defaults to "gemini-pro".
+
+    Returns:
+        GenerativeModel: An instance of the requested Gemini generative model.
+    """
+    return GenerativeModel(model_name)
