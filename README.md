@@ -35,7 +35,7 @@ The project uses Fast Api .
 </ul>
 
 <p><b>To access endpoints via swagger</b></p>
-http://127.0.0.1:8000/docs
+POST : http://127.0.0.1:8000/docs
 
 <p><b>Prompt example</b></p>
 {

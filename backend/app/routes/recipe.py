@@ -30,9 +30,8 @@ def generate_recipe(request: RecipeRequest):
 
     if not raw_response:
         raise HTTPException(status_code=500, detail="Failed to get a response from ChatGPT.")
-    
+
     try:
-        # Parse the response for title, ingredients, instructions, and image URL
         title_match = re.search(r"Title:\s*(.+)", raw_response)
         ingredients_match = re.findall(r"- (.+)", raw_response)
         instructions_match = re.findall(r"\d+\. (.+)", raw_response)

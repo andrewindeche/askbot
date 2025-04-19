@@ -1,5 +1,13 @@
+import redis
+from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
+import json
 from typing import List
+
+app = FastAPI()
+
+# Redis setup
+redis_client = redis.StrictRedis(host='localhost', port=6379, db=0, decode_responses=True)
 
 class RecipeRequest(BaseModel):
     """
@@ -22,3 +30,36 @@ class RecipeResponse(BaseModel):
     ingredients: List[str]
     instructions: List[str]
     image_url: str
+
+def cache_recipe(prompt: str, recipe_data: dict):
+    """
+    Function that Caches the recipe
+    """
+    redis_client.setex(f"recipe:{prompt}", 3600, json.dumps(recipe_data))
+
+def get_cached_recipe(prompt: str):
+    """
+    Function that Retrieves recipe from cache
+    """
+    cached_data = redis_client.get(f"recipe:{prompt}")
+    if cached_data:
+        return json.loads(cached_data)
+    return None
+
+@app.post("/generate-recipe", response_model=RecipeResponse)
+async def generate_recipe(request: RecipeRequest):
+    """
+    Asyn function to Check if the recipe exists in the cache
+    """
+    cached_recipe = get_cached_recipe(request.prompt)
+    if cached_recipe:
+        return cached_recipe
+    recipe = RecipeResponse(
+        title=f"Recipe for {request.prompt}",
+        ingredients=["Ingredient 1", "Ingredient 2", "Ingredient 3"],
+        instructions=["Step 1: Do this", "Step 2: Do that"],
+        image_url="https://via.placeholder.com/300"
+    )
+    recipe_data = recipe.dict()
+    cache_recipe(request.prompt, recipe_data)
+    return recipe
