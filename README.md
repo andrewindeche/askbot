@@ -34,6 +34,9 @@ The project uses Fast Api .
 <li> cd app && uvicorn app.main:app --reload: To run fast api</li>
 </ul>
 
+<p><b>To access endpoints via swagger</b></p>
+http://127.0.0.1:8000/docs
+
 <p><b>Prompt example</b></p>
 {
   "prompt": "chapati recipe"
