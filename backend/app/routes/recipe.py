@@ -1,7 +1,7 @@
+import re
 from fastapi import APIRouter, HTTPException
 from app.clients.gpt_client import ChatGPTClient 
 from app.schemas.recipe import RecipeRequest, RecipeResponse
-import re
 
 router = APIRouter()
 chatgpt = ChatGPTClient()
@@ -49,4 +49,4 @@ def generate_recipe(request: RecipeRequest):
             image_url=image_url
         )
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"Error parsing recipe: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Error parsing recipe: {str(e)}") from e
