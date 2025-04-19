@@ -34,5 +34,10 @@ The project uses Fast Api .
 <li> cd app && uvicorn app.main:app --reload: To run fast api</li>
 </ul>
 
+<p><b>Prompt example</b></p>
+{
+  "prompt": "chapati recipe"
+}
+
 ## <h1> Author </h1>
 Built by <b>Andrew Indeche</b>
