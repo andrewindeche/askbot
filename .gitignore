@@ -45,3 +45,4 @@ backend/fastapienv/
 backend/venv/
 backend/*.egg-info/
 backend/app/__pycache__/
+backend/app/gen-lang-client-0535661448-5093a16278b6.json
