@@ -31,8 +31,13 @@ The project uses Fast Api .
 <ul>
 <li> source fastapienv/bin/activate: To activate virtual environment for python</li>
 <li> pip install -r requirements.txt: To install dependencies from requirements</li>
-<li> cd app && uvicorn main:app --reload: To run fast api</li>
+<li> cd app && uvicorn app.main:app --reload: To run fast api</li>
 </ul>
+
+<p><b>Prompt example</b></p>
+{
+  "prompt": "chapati recipe"
+}
 
 ## <h1> Author </h1>
 Built by <b>Andrew Indeche</b>

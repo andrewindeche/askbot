@@ -1,17 +1,28 @@
-from fastapi import FastAPI
+import os
+from dotenv import load_dotenv
+load_dotenv()
 
+from fastapi import FastAPI
+from app.routes import recipe
+from fastapi.middleware.cors import CORSMiddleware
+
+# Initialize FastAPI app
 app = FastAPI()
 
-@app.get("/")
-def read_root():
-    '''
-    Sample python function
-    '''
-    return {"message": "Hello, FastAPI!"}
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:3000"],
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-@app.get("/items/{item_id}")
-def read_item(item_id: int, q: str = None):
-    '''
-    Sample python function
-    '''
-    return {"item_id": item_id, "q": q}
+# Include the routes
+app.include_router(recipe.router)
+
+@app.get("/")
+def home():
+    """
+    Route for home/default page
+    """
+    return {"message": "Welcome to the ChatGPT Recipe Generator!"}
