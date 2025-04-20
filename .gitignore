@@ -47,4 +47,12 @@ backend/venv/
 .env
 backend/*.egg-info/
 backend/app/__pycache__/
+backend/app/routes/__pycache__/
+backend/app/clients/__pycache__/
 backend/app/gen-lang-client-0535661448-5093a16278b6.json
+backend/app/clients/__pycache__/gpt_client.cpython-313.pyc
+backend/app/routes/__pycache__/recipe.cpython-313.pyc
+backend/app/schemas/__pycache__/recipe.cpython-313.pyc
+backend/tests/__pycache__/test_gpt_client.cpython-313-pytest-8.3.5.pyc
+backend/tests/__pycache__/test_recipe_routes.cpython-313-pytest-8.3.5.pyc
+backend/tests/__pycache__/test_utils.cpython-313-pytest-8.3.5.pyc
