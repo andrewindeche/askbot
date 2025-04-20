@@ -5,9 +5,14 @@ import Head from "next/head";
 import axios from "axios";
 import Image from "next/image";
 
+interface Recipe {
+  title: string;
+  recipe: string;
+  image_url?: string;
+}
 export default function Home() {
   const [prompt, setPrompt] = useState("");
-  const [recipe, setRecipe] = useState(null);
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
   const [loading, setLoading] = useState(false);
   const [history, setHistory] = useState<string[]>([]);
 
@@ -31,11 +36,11 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Chef's Canvas</title>
+        <title>Chef&apos;s Canvas</title>
       </Head>
       <div className="min-h-screen bg-gradient-to-br from-orange-100 to-yellow-50 flex flex-col items-center p-6">
         <h1 className="text-4xl md:text-6xl font-bold text-amber-700 drop-shadow-lg mt-10">
-          Chef's Canvas 🍳
+          Chef&apos;s Canvas 🍳
         </h1>
         <p className="text-lg text-gray-600 mt-4 mb-6 max-w-xl text-center">
           Unleash your inner chef! Describe a dish, and we’ll whip up a unique recipe for you.
