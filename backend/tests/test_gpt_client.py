@@ -6,7 +6,7 @@ import responses
 
 logging.basicConfig(level=logging.INFO)
 @responses.activate
-@patch("openai.ChatCompletion.create")
+@patch("openai.resources.chat.Completions.create")
 def test_successful_query_with_mocked_image(mock_create,mock_chatgpt_client):
     """
     Test that verifies the successful response from the ChatGPT model when 
@@ -41,7 +41,7 @@ def test_successful_query_with_mocked_image(mock_create,mock_chatgpt_client):
         assert response == "Kenyan tea is made by boiling tea leaves, water, and sugar, and served with milk."
 
 @responses.activate
-@patch("openai.ChatCompletion.create")
+@patch("openai.resources.chat.Completions.create")
 def test_rate_limit_error_with_mocked_image(mock_create, mock_chatgpt_client):
     """
     Test that verifies the handling of rate limit errors from the OpenAI API

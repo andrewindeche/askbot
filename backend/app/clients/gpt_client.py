@@ -1,6 +1,8 @@
 import os
 import logging
-import openai
+from openai import OpenAI
+
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 # Setup logging
 logging.basicConfig(level=logging.INFO)
@@ -15,7 +17,6 @@ class ChatGPTClient:
         Initializes the ChatGPTClient and authenticates with OpenAI API.
         """
         try:
-            openai.api_key = os.getenv("OPENAI_API_KEY")
             if not openai.api_key:
                 raise ValueError("OPENAI_API_KEY must be set in your environment.")
             self.model_name = model_name
@@ -30,12 +31,10 @@ class ChatGPTClient:
         Queries the ChatGPT model using the provided prompt and handles errors.
         """
         try:
-            gpt_response = openai.Completion.create(
-                model=self.model_name,
-                prompt=prompt,
-                max_tokens=150
-            )
-            return gpt_response['choices'][0]['text'].strip()
+            gpt_response = client.completions.create(model=self.model_name,
+            prompt=prompt,
+            max_tokens=150)
+            return gpt_response.choices[0].text.strip()
         except openai.AuthenticationError as e:
             logger.error("Authentication Error: %s", e)
             return "Authentication failed. Please check your API key."
