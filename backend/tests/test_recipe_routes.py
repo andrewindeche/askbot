@@ -32,7 +32,7 @@ def mock_chatgpt_client():
     """
     return MockChatGPTClient()
 
-@patch("openai.ChatCompletion.create")
+@patch("openai.resources.chat.Completions.create")
 def test_successful_query_with_mocked_image(mock_create, mock_chatgpt_client):
     """
     Test the mocked client returns expected recipe content.
@@ -59,7 +59,7 @@ def test_successful_query_with_mocked_image(mock_create, mock_chatgpt_client):
     response = mock_chatgpt_client.query("Write a short recipe for Kenyan tea.")
     assert response == "Kenyan tea is made by boiling tea leaves, water, and sugar, and served with milk."
 
-@patch("openai.ChatCompletion.create")
+@patch("openai.resources.chat.Completions.create")
 def test_rate_limit_error_with_mocked_image(mock_create):
     """
     Test real GPT client throws exception on rate limit.
